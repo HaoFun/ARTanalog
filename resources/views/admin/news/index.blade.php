@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'User main page')
+@section('title', 'News main page')
 
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -9,10 +9,10 @@
                 <div class="panel">
                     <div class="panel-heading">
                         <label for="" class="col-md-3">
-                            <h3>User List</h3>
+                            <h3>News List</h3>
                         </label>
                         <div class="col-md-offset-6 col-md-3">
-                            <a href="{{ route('admin.user.create') }}" type="button" class="btn btn-block btn-primary pull-right">Create User</a>
+                            <a href="{{ route('admin.news.create') }}" type="button" class="btn btn-block btn-primary pull-right">Create News</a>
                         </div>
                     </div>
                     <div class="panel-body">

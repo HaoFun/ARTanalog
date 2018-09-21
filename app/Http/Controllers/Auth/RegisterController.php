@@ -36,7 +36,7 @@ class RegisterController extends Controller
         return $this->user->create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => $data['password'],
             'api_key' => str_random(32),
             'is_action' => 0
         ]);

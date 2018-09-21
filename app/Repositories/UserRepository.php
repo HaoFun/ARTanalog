@@ -10,4 +10,11 @@ class UserRepository extends BaseAbstract
     {
         return 'App\Models\User';
     }
+
+    public function create(array $data)
+    {
+        return parent::create(array_merge($data, [
+            'api_key' => str_random(32)
+        ]));
+    }
 }

@@ -21,8 +21,10 @@ Route::prefix('admin')->group(function($route) {
     $route->get('/forget_password', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
 
 
-    $route->get('/user', 'Admin\UserController@index')->name('admin.user.index');
+    $route->get('/users', 'Admin\UserController@index')->name('admin.user.index');
+    $route->get('user', 'Admin\UserController@create')->name('admin.user.create');
     $route->get('/user/{user}', 'Admin\UserController@edit')->name('admin.user.edit');
+    $route->post('/user', 'Admin\UserController@store')->name('admin.user.store');
     $route->patch('/user/{user}', 'Admin\UserController@update')->name('admin.user.update');
-    $route->delete('/user/{user}', 'Admin\UserController@destory')->name('admin.user.destroy');
+    $route->delete('/user/{user}', 'Admin\UserController@destroy')->name('admin.user.destroy');
 });

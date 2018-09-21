@@ -6,10 +6,15 @@
             <div class="col-md-12">
                 <div class="panel">
                     <div class="panel-heading">
-
+                        <label for="" class="col-md-3">
+                            <h3>User List</h3>
+                        </label>
+                        <div class="col-md-offset-6 col-md-3">
+                            <a href="<?php echo e(route('admin.user.create')); ?>" type="button" class="btn btn-block btn-primary pull-right">Create User</a>
+                        </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered" >
+                        <table class="table table-bordered">
                             <tr>
                                 <th class="text-center">Create at</th>
                                 <th class="text-center">Name</th>
@@ -36,13 +41,13 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>"  type="button" class="btn btn-success form-control">Edit</a>
+                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
                                         <form action="<?php echo e(route('admin.user.destroy', $user->id)); ?>" method="post">
                                             <?php echo e(method_field('DELETE')); ?>
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="button">Delete</button>
+                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Info extends Model
+class News extends Model
 {
     protected $fillable = [
-        'type', 'content'
+        'title', 'content', 'publish_at'
     ];
 }
