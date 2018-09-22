@@ -12,7 +12,7 @@
             </li>
 
             <li class="<?php echo e(isActiveRoute('admin.news')); ?>">
-                <a href=""><i class="fa fa-newspaper-o fa-lg"></i> <span class="nav-label">News</span></a>
+                <a href="<?php echo e(route('admin.news.index')); ?>"><i class="fa fa-newspaper-o fa-lg"></i> <span class="nav-label">News</span></a>
             </li>
         </ul>
     </div>

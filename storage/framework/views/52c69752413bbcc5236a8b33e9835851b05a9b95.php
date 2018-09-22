@@ -6,6 +6,7 @@
     <title>ARTanaLog - <?php echo $__env->yieldContent('title'); ?> </title>
     <link rel="stylesheet" href="<?php echo asset('css/vendor.css'); ?>" />
     <link rel="stylesheet" href="<?php echo asset('css/app.css'); ?>" />
+    <?php echo $__env->yieldContent('css'); ?>
 </head>
 <body>
     <div id="wrapper">

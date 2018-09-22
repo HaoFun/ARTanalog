@@ -12,7 +12,7 @@
             </li>
 
             <li class="{{ isActiveRoute('admin.news') }}">
-                <a href=""><i class="fa fa-newspaper-o fa-lg"></i> <span class="nav-label">News</span></a>
+                <a href="{{ route('admin.news.index') }}"><i class="fa fa-newspaper-o fa-lg"></i> <span class="nav-label">News</span></a>
             </li>
         </ul>
     </div>

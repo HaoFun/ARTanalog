@@ -19,28 +19,28 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th class="text-center">Create at</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Status</th>
+                                <th class="text-center">Title CN</th>
+                                <th class="text-center">Title EN</th>
+                                <th class="text-center">Title JP</th>
                                 <th class="text-center">Action</th>
                             </tr>
-                            @foreach($users as $user)
+                            @foreach($news as $item)
                                 <tr>
                                     <td class="text-center">
-                                        {{ $user->created_at->toDateString() }}
+                                        {{ $item->created_at->toDateString() }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $user->name }}
+                                        {{ $item->title_cn }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $user->email }}
+                                        {{ $item->title_en }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $user->is_action ? 'checked' : 'unCheck' }}
+                                        {{ $item->title_jp }}
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.user.edit', $user->id) }}" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
+                                        <a href="{{ route('admin.news.edit', $item->id) }}" type="button" class="btn btn-success form-control">Edit</a>
+                                        <form action="{{ route('admin.news.destroy', $item->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button class="btn btn-danger form-control" type="submit">Delete</button>

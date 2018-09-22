@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'Admin main page'); ?>
+<?php $__env->startSection('title', 'User main page'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -41,13 +41,13 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
+                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>" type="button" class="btn form-control btn-success">Edit</a>
                                         <form action="<?php echo e(route('admin.user.destroy', $user->id)); ?>" method="post">
                                             <?php echo e(method_field('DELETE')); ?>
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn form-control btn-danger" type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

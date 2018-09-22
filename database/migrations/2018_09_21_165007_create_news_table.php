@@ -15,8 +15,12 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 50)->comment('新聞標題');
-            $table->text('content')->nullable()->comment('新聞內文');
+            $table->string('title_cn', 50)->comment('新聞標題CN');
+            $table->string('title_en', 50)->comment('新聞標題EN');
+            $table->string('title_jp', 50)->comment('新聞標題JP');
+            $table->text('content_cn')->nullable()->comment('新聞內文CN');
+            $table->text('content_en')->nullable()->comment('新聞內文EN');
+            $table->text('content_jp')->nullable()->comment('新聞內文JP');
             $table->timestamp('publish_at')->comment('發布時間(以此欄位排序)');
             $table->timestamps();
         });
