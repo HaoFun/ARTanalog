@@ -4,30 +4,30 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Abstracts\BaseRequest;
 
-class NewsRequest extends BaseRequest
+class TagRequest extends BaseRequest
 {
     public function rules()
     {
         switch ($this->route()->getName()) {
-            case 'admin.news.store':
+            case 'admin.tag.store':
                 return [
-                    'title_cn' => 'required|min:3|max:50',
-                    'title_en' => 'required|min:3|max:50',
-                    'title_jp' => 'required|min:3|max:50',
+                    'name_cn' => 'required|min:3',
+                    'name_en' => 'required|min:3',
+                    'name_jp' => 'required|min:3',
                     'content_cn' => 'required|min:3',
                     'content_en' => 'required|min:3',
                     'content_jp' => 'required|min:3',
-                    'publish_at' => 'required|date'
+                    'parent_id'  => 'nullable|exists:tags,id',
                 ];
-            case 'admin.news.update':
+            case 'admin.tag.update':
                 return [
-                    'title_cn' => 'required|min:3|max:50',
-                    'title_en' => 'required|min:3|max:50',
-                    'title_jp' => 'required|min:3|max:50',
+                    'name_cn' => 'required|min:3',
+                    'name_en' => 'required|min:3',
+                    'name_jp' => 'required|min:3',
                     'content_cn' => 'required|min:3',
                     'content_en' => 'required|min:3',
                     'content_jp' => 'required|min:3',
-                    'publish_at' => 'required|date'
+                    'parent_id'  => 'nullable|exists:tags,id',
                 ];
             default:
                 return [];

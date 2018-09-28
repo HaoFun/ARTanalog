@@ -1,26 +1,23 @@
 @extends('layouts.app')
 
-@section('css')
-    <link href="{{ asset('css/datepicker3.css') }}" rel="stylesheet">
-@endsection
-
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3>Create News</h3>
+                        <h3>Update News</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="POST" action="{{ route('admin.news.store') }}">
+                        <form role="form" method="POST" action="{{ route('admin.news.update', $news->id) }}">
+                            {{ method_field('PATCH') }}
                             {{ csrf_field() }}
                             <div class="form-group row {{ $errors->has('title_cn') ? ' has-error' : '' }}">
                                 <label for="title_cn" class="col-md-2">
                                     Title CN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_cn" type="text" class="form-control" name="title_cn" placeholder="Title CN" value="{{ old('title_cn') }}" required autofocus>
+                                    <input id="title_cn" type="text" class="form-control" name="title_cn" placeholder="Title CN" value="{{ $news->title_cn }}" required autofocus>
                                     @if ($errors->has('title_cn'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('title_cn') }}</strong>
@@ -34,7 +31,7 @@
                                     Title EN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="{{ old('title_en') }}" required>
+                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="{{ $news->title_en }}" required autofocus>
                                     @if ($errors->has('title_en'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('title_en') }}</strong>
@@ -44,11 +41,11 @@
                             </div>
 
                             <div class="form-group row {{ $errors->has('title_jp') ? ' has-error' : '' }}">
-                                <label for="title_jp" class="col-md-2">
+                                <label for="title" class="col-md-2">
                                     Title JP
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="{{ old('title_jp') }}" required>
+                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="{{ $news->title_jp }}" required autofocus>
                                     @if ($errors->has('title_jp'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('title_jp') }}</strong>
@@ -62,7 +59,7 @@
                                     Content CN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_cn" name="content_cn">{!! old('content_cn') !!}</textarea>
+                                    <textarea id="content_cn" name="content_cn">{!! $news->content_cn !!}</textarea>
                                     @if ($errors->has('content_cn'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_cn') }}</strong>
@@ -76,7 +73,7 @@
                                     Content EN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_en" name="content_en">{!! old('content_en') !!}</textarea>
+                                    <textarea id="content_en" name="content_en">{!! $news->content_en !!}</textarea>
                                     @if ($errors->has('content_en'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_en') }}</strong>
@@ -90,7 +87,7 @@
                                     Content JP
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_jp" name="content_jp">{!! old('content_jp') !!}</textarea>
+                                    <textarea id="content_jp" name="content_jp">{!! $news->content_jp !!}</textarea>
                                     @if ($errors->has('content_jp'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_jp') }}</strong>
@@ -103,7 +100,7 @@
                                 <label for="publish_at" class="col-md-2">Publish at</label>
                                 <div class="input-group date col-md-10" style="padding-right:15px; padding-left:15px">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" id="publish_at" name="publish_at" class="form-control">
+                                    <input type="text" id="publish_at" name="publish_at" class="form-control" value="{{ $news->publish_at }}">
                                     @if ($errors->has('publish_at'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('publish_at') }}</strong>
@@ -114,7 +111,7 @@
 
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Create
+                                    Update
                                 </button>
                             </div>
                         </form>
@@ -123,84 +120,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@include('vendor.ueditor.assets')
-@section('scripts')
-    <script src="{{ asset('js/moment.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            UE.getEditor('content_cn',
-                {
-                    initialFrameHeight:150,
-                    scaleEnabled:false,
-                    toolbars: [
-                        [
-                            'fontsize', 'fontfamily', 'bold', 'forecolor', 'italic',
-                            'underline', 'strikethrough', 'blockquote', 'justifyleft',
-                            'justifycenter', 'justifyright', 'link', 'insertimage',
-                            'insertframe'
-                        ]
-                    ],
-                    autoHeight:150,
-                    elementPathEnabled: false,
-                    enableContextMenu: false,
-                    autoClearEmptyNode:true,
-                    wordCount:false,
-                    imagePopup:false,
-                    autotypeset:{ indent: true,imageBlockLine: 'center' },
-                    initialStyle:'p{line-height:30px;}'
-                });
-
-            UE.getEditor('content_en',
-                {
-                    initialFrameHeight:150,
-                    scaleEnabled:false,
-                    toolbars: [
-                        [
-                            'fontsize', 'fontfamily', 'bold', 'forecolor', 'italic',
-                            'underline', 'strikethrough', 'blockquote', 'justifyleft',
-                            'justifycenter', 'justifyright', 'link', 'insertimage',
-                            'insertframe'
-                        ]
-                    ],
-                    autoHeight:150,
-                    elementPathEnabled: false,
-                    enableContextMenu: false,
-                    autoClearEmptyNode:true,
-                    wordCount:false,
-                    imagePopup:false,
-                    autotypeset:{ indent: true,imageBlockLine: 'center' },
-                    initialStyle:'p{line-height:30px;}'
-                });
-
-            UE.getEditor('content_jp',
-                {
-                    initialFrameHeight:150,
-                    scaleEnabled:false,
-                    toolbars: [
-                        [
-                            'fontsize', 'fontfamily', 'bold', 'forecolor', 'italic',
-                            'underline', 'strikethrough', 'blockquote', 'justifyleft',
-                            'justifycenter', 'justifyright', 'link', 'insertimage',
-                            'insertframe'
-                        ]
-                    ],
-                    autoHeight:150,
-                    elementPathEnabled: false,
-                    enableContextMenu: false,
-                    autoClearEmptyNode:true,
-                    wordCount:false,
-                    imagePopup:false,
-                    autotypeset:{ indent: true,imageBlockLine: 'center' },
-                    initialStyle:'p{line-height:30px;}'
-                });
-
-            $('#publish_at').datepicker({
-                autoclose: true,
-                format: "yyyy-mm-dd"
-            });
-        });
-    </script>
 @endsection

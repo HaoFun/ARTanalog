@@ -6,6 +6,7 @@
     <title>ARTanaLog - <?php echo $__env->yieldContent('title'); ?> </title>
     <link rel="stylesheet" href="<?php echo asset('css/vendor.css'); ?>" />
     <link rel="stylesheet" href="<?php echo asset('css/app.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo asset('css/sweetalert.css'); ?>" />
     <?php echo $__env->yieldContent('css'); ?>
 </head>
 <body>
@@ -18,6 +19,7 @@
         </div>
     </div>
     <script src="<?php echo asset('js/app.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo asset('js/sweetalert.min.js'); ?>" type="text/javascript"></script>
     <?php $__env->startSection('scripts'); ?>
     <?php echo $__env->yieldSection(); ?>
 </body>

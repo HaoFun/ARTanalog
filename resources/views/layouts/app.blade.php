@@ -6,6 +6,7 @@
     <title>ARTanaLog - @yield('title') </title>
     <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
+    <link rel="stylesheet" href="{!! asset('css/sweetalert.css') !!}" />
     @yield('css')
 </head>
 <body>
@@ -18,6 +19,7 @@
         </div>
     </div>
     <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
+    <script src="{!! asset('js/sweetalert.min.js') !!}" type="text/javascript"></script>
     @section('scripts')
     @show
 </body>
