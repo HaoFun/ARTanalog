@@ -168,7 +168,7 @@ return [
          */
 
         Overtrue\LaravelUEditor\UEditorServiceProvider::class,
-
+        Laracasts\Flash\FlashServiceProvider::class,
         /*
          * Application Service Providers...
          */

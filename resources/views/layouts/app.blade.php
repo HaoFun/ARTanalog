@@ -14,6 +14,7 @@
         @include('layouts.navigation')
         <div id="page-wrapper" class="gray-bg">
             @include('layouts.topnavbar')
+            @include('flash::message')
             @yield('content')
             @include('layouts.footer')
         </div>

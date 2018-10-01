@@ -365,7 +365,7 @@
 							var file = files[i], // file
 								item = f._itFl[f.files.add(file, 'choosed')], // item
 								status = f.files.check(item, files, i == 0); // ["type", "message", "do not show the warning message", "do not check the next files"]
-                            
+
                             // process the warnings
 							if (status !== true) {
 								f.files.remove(item, true);
@@ -401,7 +401,7 @@
 							
                             t++;
 						}
-						
+
                         // clear the input in uploadMode
                         if (f.isUploadMode() && t > 0)
                             f.set('input', '');
@@ -411,8 +411,8 @@
 						
 						// set nextInput for addMore option
 						if (f.isAddMoreMode() && t > 0) {
-							f.set('nextInput');
-						}
+                        	f.set('nextInput');
+                        }
 						
                         // set listInput value
 						f.set('listInput', null);

@@ -16,6 +16,29 @@
                     <div class="panel-body">
                         <form role="form" method="POST" action="{{ route('admin.tag.store') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <div class="form-group row" {{ $errors->has('parent_id') ? ' has-error' : '' }}>
+                                <label for="parent_id" class="col-md-2">
+                                    Parent ID
+                                </label>
+                                <div class="col-md-10">
+                                    <select class="form-control m-b" name="parent_id">
+                                        <option value="">Empty</option>
+                                        @if (count($tags))
+                                            @foreach($tags as $item)
+                                                @foreach($item as $value)
+                                                    <option value="{{ $value->id }}">{{ $value->name_cn . '  [' . ($loop->parent->index + 1) . ']' }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    @if ($errors->has('parent_id'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('parent_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group row {{ $errors->has('name_cn') ? ' has-error' : '' }}">
                                 <label for="name_cn" class="col-md-2">
                                     Name CN
@@ -100,7 +123,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group {{ $errors->has('icon') ? 'has-error':'' }} {{ $errors->has('files.*') ? 'has-error':'' }}">
+                            <div class="form-group {{ $errors->has('icon') ? 'has-error':'' }}">
                                 <label for="icon" class="col-md-2">
                                     Icon
                                 </label>
@@ -136,7 +159,6 @@
                 extensions: ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'],
                 theme: 'thumbnails',
                 enableApi: true,
-                addMore: true,
                 editor: {
                     cropper: {
                         minWidth: 100,
@@ -144,22 +166,18 @@
                         showGrid: true
                     }
                 },
-                dialogs:
-                    {
-                        alert:function(e)
-                        {
-                            return swal
-                            ({
-                                title:e,
-                                type: "warning",
-                                timer:2500
-                            })
-                        },
-                        confirm:function(e,n)
-                        {
-                            n();
-                        }
+                dialogs: {
+                    alert:function(e) {
+                        return swal({
+                            title:e,
+                            type: "warning",
+                            timer:2500
+                        })
                     },
+                    confirm:function(e,n) {
+                        n();
+                    }
+                },
                 captions: {
                     button: function(options) { return '選擇圖檔'; },
                     feedback: function(options) { return '選擇需上傳的圖檔'; },

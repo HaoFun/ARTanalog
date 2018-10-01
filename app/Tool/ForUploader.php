@@ -36,11 +36,7 @@ class ForUploader
     public function CheckDataWarning($data)
     {
         if($data['hasWarnings']) {
-            $warning = '';
-            foreach ($data['warnings'] as $value) {
-                $warning .= $value;
-            }
-            return $warning;
+            return array_first($data['hasWarnings']);
         }
     }
 
@@ -57,21 +53,19 @@ class ForUploader
 
     public function getFile($uploadedFiles)
     {
-        return count($uploadedFiles) >= 1 ? $file = $uploadedFiles:$file = '';
+        return count($uploadedFiles) >= 1 ? $file = $uploadedFiles: $file = '';
     }
 
-    public function getFileType($type, $data)
+    public function getFileType($data)
     {
-        if ($type === 'image' && $data !== '') {
-            $image = unserialize(base64_decode($data));
-            $images = array();
-            if($image !== '') {
-                foreach ($image as $key => $value) {
-                    $images['size'][$key] = filesize($value);
-                    $images['url'][$key] = $value;
-                    $images['type'][$key] = $this->tool->call_mime_content_type($value);
-                    $images['name'][$key] = substr(strrchr($value, '/'), 1);
-                }
+        if ($data) {
+            $image = unserialize($data);
+            $images = [];
+            foreach ($image as $key => $value) {
+                $images['size'][$key] = filesize($value);
+                $images['url'][$key] = $value;
+                $images['type'][$key] = $this->tool->call_mime_content_type($value);
+                $images['name'][$key] = substr(strrchr($value, '/'), 1);
             }
             return $images;
         }
@@ -79,7 +73,7 @@ class ForUploader
 
     public function getOldFile($upload_data, $data)
     {
-        unserialize(base64_decode($data)) === '' ? $old_file = array($data): $old_file = unserialize(base64_decode($data));
+        unserialize($data) === '' ? $old_file = array($data): $old_file = unserialize($data);
         $old_file_data = $this->Unlink_File_list($old_file, $upload_data);
         $old_file_string = $this->getFile($old_file_data);
         return $old_file_string;
@@ -90,8 +84,8 @@ class ForUploader
         $update_file = array();
         $old_file_data = array();
         if(count($upload_data['list'])){
-            foreach ($upload_data['list'] as $file){
-                if(file_exists(substr($file,1))){
+            foreach ($upload_data['list'] as $file) {
+                if(file_exists(substr($file,1))) {
                     $old_file_data[] .= substr($file,1);
                 }
                 $update_file[] = substr($file,1);
@@ -114,9 +108,9 @@ class ForUploader
 
     public function checkSaveFileList($old_file, $update_file)
     {
-        if($update_file !== ''  && $old_file !== '') {
+        if($update_file && $old_file) {
             $imageList = array_merge($old_file, $update_file);
-        } elseif($update_file !== '') {
+        } elseif($update_file) {
             $imageList = $update_file;
         } else {
             $imageList = $old_file;
@@ -127,7 +121,7 @@ class ForUploader
     public function deleteFile($file)
     {
         if($file !== '') {
-            if($data = unserialize(base64_decode($file)))
+            if($data = unserialize($file))
             {
                 foreach ($data as $value) {
                     if(file_exists($value) && !in_array($value, $this->keep_file)) {
@@ -138,7 +132,7 @@ class ForUploader
         }
     }
 
-    public function crop_image($request,$type = 'fileuploader-list-images')
+    public function crop_image($request, $type = 'fileuploader-list-images')
     {
         if($data = $request->get($type))
         {

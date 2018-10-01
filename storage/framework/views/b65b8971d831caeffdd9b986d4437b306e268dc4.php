@@ -11,11 +11,13 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3>Create Tag</h3>
+                        <h3>Update Tag</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="POST" action="<?php echo e(route('admin.tag.store')); ?>" enctype="multipart/form-data">
+                        <form role="form" method="POST" action="<?php echo e(route('admin.tag.update', $tag->id)); ?>" enctype="multipart/form-data">
                             <?php echo e(csrf_field()); ?>
+
+                            <?php echo e(method_field('PATCH')); ?>
 
                             <div class="form-group row" <?php echo e($errors->has('parent_id') ? ' has-error' : ''); ?>>
                                 <label for="parent_id" class="col-md-2">
@@ -27,6 +29,9 @@
                                         <?php if(count($tags)): ?>
                                             <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php $__currentLoopData = $item; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php if($value->id === $tag->id): ?>
+                                                        <?php continue; ?>
+                                                    <?php endif; ?>
                                                     <option value="<?php echo e($value->id); ?>"><?php echo e($value->name_cn . '  [' . ($loop->parent->index + 1) . ']'); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -45,7 +50,7 @@
                                     Name CN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="name_cn" type="text" class="form-control" name="name_cn" placeholder="Name CN" value="<?php echo e(old('name_cn')); ?>" required autofocus>
+                                    <input id="name_cn" type="text" class="form-control" name="name_cn" placeholder="Name CN" value="<?php echo e(isset($tag->name_cn) ? $tag->name_cn : old('name_cn')); ?>" required autofocus>
                                     <?php if($errors->has('name_cn')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('name_cn')); ?></strong>
@@ -59,7 +64,7 @@
                                     Name EN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="name_en" type="text" class="form-control" name="name_en" placeholder="Name EN" value="<?php echo e(old('name_en')); ?>" required>
+                                    <input id="name_en" type="text" class="form-control" name="name_en" placeholder="Name EN" value="<?php echo e(isset($tag->name_en) ? $tag->name_en : old('name_en')); ?>" required>
                                     <?php if($errors->has('name_en')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('name_en')); ?></strong>
@@ -73,7 +78,7 @@
                                     Name JP
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="name_jp" type="text" class="form-control" name="name_jp" placeholder="Name JP" value="<?php echo e(old('name_jp')); ?>" required>
+                                    <input id="name_jp" type="text" class="form-control" name="name_jp" placeholder="Name JP" value="<?php echo e(isset($tag->name_jp) ? $tag->name_jp : old('name_jp')); ?>" required>
                                     <?php if($errors->has('name_jp')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('name_jp')); ?></strong>
@@ -87,7 +92,7 @@
                                     Content CN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_cn" name="content_cn" class="form-control"><?php echo old('content_cn'); ?></textarea>
+                                    <textarea id="content_cn" name="content_cn" class="form-control"><?php echo isset($tag->content_cn) ? $tag->content_cn : old('content_cn'); ?></textarea>
                                     <?php if($errors->has('content_cn')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('content_cn')); ?></strong>
@@ -101,7 +106,7 @@
                                     Content EN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_en" name="content_en" class="form-control"><?php echo old('content_en'); ?></textarea>
+                                    <textarea id="content_en" name="content_en" class="form-control"><?php echo isset($tag->content_en) ? $tag->content_en : old('content_en'); ?></textarea>
                                     <?php if($errors->has('content_en')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('content_en')); ?></strong>
@@ -115,7 +120,7 @@
                                     Content JP
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_jp" name="content_jp" class="form-control"><?php echo old('content_jp'); ?></textarea>
+                                    <textarea id="content_jp" name="content_jp" class="form-control"><?php echo isset($tag->content_jp) ? $tag->content_jp : old('content_jp'); ?></textarea>
                                     <?php if($errors->has('content_jp')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('content_jp')); ?></strong>
@@ -129,7 +134,15 @@
                                     Icon
                                 </label>
                                 <div class="col-md-10">
-                                    <input type="file" name="icon">
+                                    <input type="file" name="icon" data-fileuploader-files='[
+                                        <?php if(count($icon)): ?>
+                                            {
+                                                "name":"<?php echo e(array_first($icon['name'])); ?>",
+                                                "size":"<?php echo e(array_first($icon['size'])); ?>",
+                                                "type":"<?php echo e(array_first($icon['type'])); ?>",
+                                                "file":"/<?php echo e(array_first($icon['url']) . '?v=' . filemtime(array_first($icon['url']))); ?>"
+                                            }
+                                        <?php endif; ?> ]'>
                                     <?php if($errors->has('icon')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('icon')); ?></strong>
@@ -140,7 +153,7 @@
 
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Create
+                                    Update
                                 </button>
                             </div>
                         </form>

@@ -13,6 +13,6 @@ class Tag extends Model
 
     public function tag()
     {
-        return $this->hasOne(self::class, 'parent_id', 'id');
+        return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 }

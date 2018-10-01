@@ -23,6 +23,10 @@
             <li class="{{ isActiveRoute('admin.tag') }}">
                 <a href="{{ route('admin.tag.index') }}"><i class="fa fa-th-list fa-lg"></i> <span class="nav-label">Tag</span></a>
             </li>
+
+            <li class="{{ isActiveRoute('admin.product') }}">
+                <a href="{{ route('admin.product.index') }}"><i class="fa fa-cubes fa-lg"></i> <span class="nav-label">Product</span></a>
+            </li>
         </ul>
     </div>
 </nav>

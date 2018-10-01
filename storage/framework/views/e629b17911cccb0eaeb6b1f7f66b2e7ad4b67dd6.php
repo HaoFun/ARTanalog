@@ -23,6 +23,10 @@
             <li class="<?php echo e(isActiveRoute('admin.tag')); ?>">
                 <a href="<?php echo e(route('admin.tag.index')); ?>"><i class="fa fa-th-list fa-lg"></i> <span class="nav-label">Tag</span></a>
             </li>
+
+            <li class="<?php echo e(isActiveRoute('admin.product')); ?>">
+                <a href="<?php echo e(route('admin.product.index')); ?>"><i class="fa fa-cubes fa-lg"></i> <span class="nav-label">Product</span></a>
+            </li>
         </ul>
     </div>
 </nav>

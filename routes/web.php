@@ -23,4 +23,5 @@ Route::prefix('admin')->group(function($route) {
     $route->resource('user', 'Admin\UserController', ['as' => 'admin']);
     $route->resource('news', 'Admin\NewsController', ['as' => 'admin']);
     $route->resource('tag', 'Admin\TagController', ['as' => 'admin']);
+    $route->resource('product', 'Admin\ProductController', ['as' => 'admin']);
 });

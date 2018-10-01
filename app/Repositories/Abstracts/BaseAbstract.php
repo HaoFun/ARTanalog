@@ -55,9 +55,14 @@ abstract class BaseAbstract
         return $this->model->whereIn($field, $value)->get($columns);
     }
 
-    public function findWith($with, $id, $columns = ['*'])
+    public function findWith($with, $id, $columns)
     {
         return $this->model->with($with)->find($id, $columns);
+    }
+
+    public function findWithPaginate($with, $columns = ['*'], $per_page = 20)
+    {
+        return $this->model->with($with)->select($columns)->paginate($per_page);
     }
 
     public function create(array $data)

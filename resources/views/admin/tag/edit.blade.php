@@ -1,54 +1,85 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader-theme-thumbnails.css') }}">
+@endsection
+
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3>Update News</h3>
+                        <h3>Update Tag</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="POST" action="{{ route('admin.news.update', $news->id) }}">
-                            {{ method_field('PATCH') }}
+                        <form role="form" method="POST" action="{{ route('admin.tag.update', $tag->id) }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="form-group row {{ $errors->has('title_cn') ? ' has-error' : '' }}">
-                                <label for="title_cn" class="col-md-2">
-                                    Title CN
+                            {{ method_field('PATCH') }}
+                            <div class="form-group row" {{ $errors->has('parent_id') ? ' has-error' : '' }}>
+                                <label for="parent_id" class="col-md-2">
+                                    Parent ID
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_cn" type="text" class="form-control" name="title_cn" placeholder="Title CN" value="{{ $news->title_cn }}" required autofocus>
-                                    @if ($errors->has('title_cn'))
+                                    <select class="form-control m-b" name="parent_id">
+                                        <option value="">Empty</option>
+                                        @if (count($tags))
+                                            @foreach($tags as $item)
+                                                @foreach($item as $value)
+                                                    @if ($value->id === $tag->id)
+                                                        @continue
+                                                    @endif
+                                                    <option value="{{ $value->id }}">{{ $value->name_cn . '  [' . ($loop->parent->index + 1) . ']' }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    @if ($errors->has('parent_id'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_cn') }}</strong>
+                                            <strong>{{ $errors->first('parent_id') }}</strong>
                                         </span>
                                     @endif
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('title_en') ? ' has-error' : '' }}">
-                                <label for="title_en" class="col-md-2">
-                                    Title EN
+                            <div class="form-group row {{ $errors->has('name_cn') ? ' has-error' : '' }}">
+                                <label for="name_cn" class="col-md-2">
+                                    Name CN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="{{ $news->title_en }}" required autofocus>
-                                    @if ($errors->has('title_en'))
+                                    <input id="name_cn" type="text" class="form-control" name="name_cn" placeholder="Name CN" value="{{ $tag->name_cn or old('name_cn') }}" required autofocus>
+                                    @if ($errors->has('name_cn'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_en') }}</strong>
+                                            <strong>{{ $errors->first('name_cn') }}</strong>
                                         </span>
                                     @endif
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('title_jp') ? ' has-error' : '' }}">
-                                <label for="title" class="col-md-2">
-                                    Title JP
+                            <div class="form-group row {{ $errors->has('name_en') ? ' has-error' : '' }}">
+                                <label for="name_en" class="col-md-2">
+                                    Name EN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="{{ $news->title_jp }}" required autofocus>
-                                    @if ($errors->has('title_jp'))
+                                    <input id="name_en" type="text" class="form-control" name="name_en" placeholder="Name EN" value="{{ $tag->name_en or old('name_en') }}" required>
+                                    @if ($errors->has('name_en'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_jp') }}</strong>
+                                            <strong>{{ $errors->first('name_en') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row {{ $errors->has('name_jp') ? ' has-error' : '' }}">
+                                <label for="name_jp" class="col-md-2">
+                                    Name JP
+                                </label>
+                                <div class="col-md-10">
+                                    <input id="name_jp" type="text" class="form-control" name="name_jp" placeholder="Name JP" value="{{ $tag->name_jp or old('name_jp') }}" required>
+                                    @if ($errors->has('name_jp'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('name_jp') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -59,7 +90,7 @@
                                     Content CN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_cn" name="content_cn">{!! $news->content_cn !!}</textarea>
+                                    <textarea id="content_cn" name="content_cn" class="form-control">{!! $tag->content_cn or old('content_cn') !!}</textarea>
                                     @if ($errors->has('content_cn'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_cn') }}</strong>
@@ -73,7 +104,7 @@
                                     Content EN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_en" name="content_en">{!! $news->content_en !!}</textarea>
+                                    <textarea id="content_en" name="content_en" class="form-control">{!! $tag->content_en or old('content_en') !!}</textarea>
                                     @if ($errors->has('content_en'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_en') }}</strong>
@@ -87,7 +118,7 @@
                                     Content JP
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_jp" name="content_jp">{!! $news->content_jp !!}</textarea>
+                                    <textarea id="content_jp" name="content_jp" class="form-control">{!! $tag->content_jp or old('content_jp') !!}</textarea>
                                     @if ($errors->has('content_jp'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('content_jp') }}</strong>
@@ -96,14 +127,23 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row" {{ $errors->has('publish_at') ? ' has-error' : '' }}>
-                                <label for="publish_at" class="col-md-2">Publish at</label>
-                                <div class="input-group date col-md-10" style="padding-right:15px; padding-left:15px">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" id="publish_at" name="publish_at" class="form-control" value="{{ $news->publish_at }}">
-                                    @if ($errors->has('publish_at'))
+                            <div class="form-group {{ $errors->has('icon') ? 'has-error':'' }}">
+                                <label for="icon" class="col-md-2">
+                                    Icon
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="file" name="icon" data-fileuploader-files='[
+                                        @if(count($icon))
+                                            {
+                                                "name":"{{ array_first($icon['name']) }}",
+                                                "size":"{{ array_first($icon['size']) }}",
+                                                "type":"{{ array_first($icon['type']) }}",
+                                                "file":"/{{ array_first($icon['url']) . '?v=' . filemtime(array_first($icon['url'])) }}"
+                                            }
+                                        @endif ]'>
+                                    @if($errors->has('icon'))
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('publish_at') }}</strong>
+                                            <strong>{{$errors->first('icon')}}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -120,4 +160,64 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.fileuploader.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="icon"]').fileuploader({
+                limit:1,
+                extensions: ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'],
+                theme: 'thumbnails',
+                enableApi: true,
+                editor: {
+                    cropper: {
+                        minWidth: 100,
+                        minHeight: 100,
+                        showGrid: true
+                    }
+                },
+                dialogs: {
+                    alert:function(e) {
+                        return swal({
+                            title:e,
+                            type: "warning",
+                            timer:2500
+                        })
+                    },
+                    confirm:function(e,n) {
+                        n();
+                    }
+                },
+                captions: {
+                    button: function(options) { return '選擇圖檔'; },
+                    feedback: function(options) { return '選擇需上傳的圖檔'; },
+                    feedback2: function(options) { return options.length + ' ' + (options.length > 1 ? '張圖檔' : '張圖檔') + '已選擇'; },
+                    confirm: '確認',
+                    cancel: '取消',
+                    name: '檔名',
+                    type: '類型',
+                    size: '大小',
+                    dimensions: '尺寸',
+                    duration: 'Duration',
+                    crop: '裁切',
+                    rotate: '旋轉',
+                    download: '下載',
+                    remove: '移除',
+                    drop: '將需選擇的圖檔拖曳到此',
+                    paste: '<div class="fileuploader-pending-loader"><div class="left-half" style="animation-duration: ${ms}s"></div><div class="spinner" style="animation-duration: ${ms}s"></div><div class="right-half" style="animation-duration: ${ms}s"></div></div> Pasting a file, click here to cancel.',
+                    removeConfirmation: '確認要移除這張圖檔嗎?',
+                    errors: {
+                        filesLimit: '上傳只能選擇${limit}個圖檔',
+                        filesType: '上傳只支援JPG、JPEG、PNG格式',
+                        fileSize: '${name}檔案過大，請確認檔案不能超過${fileMaxSize}MB.',
+                        filesSizeAll: '所有上傳的圖檔不能超過${maxSize} MB.',
+                        fileName: '這個圖檔${name}，已經被選取了',
+                        folderUpload: '尚未設置上傳的檔案路徑'
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

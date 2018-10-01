@@ -1,5 +1,9 @@
 <?php $__env->startSection('title', 'Tag main page'); ?>
 
+<?php $__env->startSection('css'); ?>
+    <link rel="stylesheet" href="<?php echo e(asset('css/blueimp-gallery.min.css')); ?>">
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -16,29 +20,36 @@
                     <div class="panel-body">
                         <table class="table table-bordered">
                             <tr>
+                                <th class="text-center">Parent Name CN</th>
                                 <th class="text-center">Content CN</th>
-                                <th class="text-center">Content EN</th>
-                                <th class="text-center">Content JP</th>
                                 <th class="text-center">Icon</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
+                                        <?php echo e(isset($tag->parent_id) ? $tag->tag->name_cn : null); ?>
+
+                                    </td>
+                                    <td class="text-center">
                                         <?php echo e(str_limit($tag->content_cn, 20, '...')); ?>
 
                                     </td>
                                     <td class="text-center">
-                                        <?php echo e(str_limit($tag->content_en, 20, '...')); ?>
-
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo e(str_limit($tag->content_jp, 20, '...')); ?>
-
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo e($tag->icon); ?>
-
+                                        <div class="lightBoxGallery">
+                                            <a href="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" data-gallery="">
+                                                <img src="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" style="height: 64px; max-width: 100px">
+                                            </a>
+                                        </div>
+                                        <div id="blueimp-gallery" class="blueimp-gallery">
+                                            <div class="slides"></div>
+                                            <h3 class="title"></h3>
+                                            <a class="prev">‹</a>
+                                            <a class="next">›</a>
+                                            <a class="close">×</a>
+                                            <a class="play-pause"></a>
+                                            <ol class="indicator"></ol>
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo e(route('admin.tag.edit', $tag->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
@@ -60,4 +71,7 @@
     </div>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('scripts'); ?>
+    <script src="<?php echo e(asset('js/jquery.blueimp-gallery.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

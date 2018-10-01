@@ -2,6 +2,10 @@
 
 @section('title', 'Tag main page')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/blueimp-gallery.min.css') }}">
+@endsection
+
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -18,25 +22,34 @@
                     <div class="panel-body">
                         <table class="table table-bordered">
                             <tr>
+                                <th class="text-center">Parent Name CN</th>
                                 <th class="text-center">Content CN</th>
-                                <th class="text-center">Content EN</th>
-                                <th class="text-center">Content JP</th>
                                 <th class="text-center">Icon</th>
                                 <th class="text-center">Action</th>
                             </tr>
                             @foreach($tags as $tag)
                                 <tr>
                                     <td class="text-center">
+                                        {{ isset($tag->parent_id) ? $tag->tag->name_cn : null }}
+                                    </td>
+                                    <td class="text-center">
                                         {{ str_limit($tag->content_cn, 20, '...') }}
                                     </td>
                                     <td class="text-center">
-                                        {{ str_limit($tag->content_en, 20, '...') }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ str_limit($tag->content_jp, 20, '...') }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $tag->icon }}
+                                        <div class="lightBoxGallery">
+                                            <a href="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" data-gallery="">
+                                                <img src="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" style="height: 64px; max-width: 100px">
+                                            </a>
+                                        </div>
+                                        <div id="blueimp-gallery" class="blueimp-gallery">
+                                            <div class="slides"></div>
+                                            <h3 class="title"></h3>
+                                            <a class="prev">‹</a>
+                                            <a class="next">›</a>
+                                            <a class="close">×</a>
+                                            <a class="play-pause"></a>
+                                            <ol class="indicator"></ol>
+                                        </div>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.tag.edit', $tag->id) }}" type="button" class="btn btn-success form-control">Edit</a>
@@ -54,4 +67,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.blueimp-gallery.min.js') }}"></script>
 @endsection

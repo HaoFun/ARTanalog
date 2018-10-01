@@ -1,18 +1,16 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'News main page'); ?>
 
-@section('title', 'News main page')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel">
                     <div class="panel-heading">
                         <label for="" class="col-md-3">
-                            <h3>News List</h3>
+                            <h3>Product List</h3>
                         </label>
                         <div class="col-md-offset-6 col-md-3">
-                            <a href="{{ route('admin.news.create') }}" type="button" class="btn btn-block btn-primary pull-right">Create News</a>
+                            <a href="<?php echo e(route('admin.product.create')); ?>" type="button" class="btn btn-block btn-primary pull-right">Create Product</a>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -21,37 +19,45 @@
                                 <th class="text-center">Create at</th>
                                 <th class="text-center">Title CN</th>
                                 <th class="text-center">Content CN</th>
-                                <th class="text-center">Publish at</th>
+                                <th class="text-center">Tag Name CN</th>
                                 <th class="text-center">Action</th>
                             </tr>
-                            @foreach($news as $item)
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
-                                        {{ $item->created_at->toDateString() }}
+                                        <?php echo e($product->created_at->toDateString()); ?>
+
                                     </td>
                                     <td class="text-center">
-                                        {{ $item->title_cn }}
+                                        <?php echo e($product->title_cn); ?>
+
                                     </td>
                                     <td class="text-center">
-                                        {{ str_limit(strip_tags($item->content_cn), 30, '...') }}
+                                        <?php echo e(str_limit(strip_tags($product->content_cn), 30, '...')); ?>
+
                                     </td>
                                     <td class="text-center">
-                                        {{ $item->publish_at->toDateString() }}
+                                        <?php echo e($product->tag->name_cn); ?>
+
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.news.edit', $item->id) }}" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="{{ route('admin.news.destroy', $item->id) }}" method="post">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
+                                        <a href="<?php echo e(route('admin.product.edit', $product->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
+                                        <form action="<?php echo e(route('admin.product.destroy', $product->id)); ?>" method="post">
+                                            <?php echo e(method_field('DELETE')); ?>
+
+                                            <?php echo e(csrf_field()); ?>
+
                                             <button class="btn btn-danger form-control" type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
