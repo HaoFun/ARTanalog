@@ -47,7 +47,9 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $user->update(array_only($request->all(), $this->fillField));
+        $user->update(array_only(array_filter($request->all(), function ($item) {
+            return isset($item);
+        }), $this->fillField));
         return redirect()->route('admin.user.index');
     }
 

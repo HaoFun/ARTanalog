@@ -18,15 +18,18 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Parent ID</th>
-                                <th class="text-center">Name CN</th>
-                                <th class="text-center">Content CN</th>
-                                <th class="text-center">Icon</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Parent ID</th>
+                                    <th class="text-center">Name CN</th>
+                                    <th class="text-center">Content CN</th>
+                                    <th class="text-center">Icon</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
@@ -47,9 +50,11 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="lightBoxGallery">
-                                            <a href="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" data-gallery="">
-                                                <img src="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" style="height: 64px; max-width: 100px">
-                                            </a>
+                                            <?php if(file_exists(array_first(unserialize(($tag->icon))))): ?>
+                                                <a href="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" data-gallery="">
+                                                    <img src="<?php echo e(asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10')); ?>" style="height: 64px; max-width: 100px">
+                                                </a>
+                                            <?php endif; ?>
                                         </div>
                                         <div id="blueimp-gallery" class="blueimp-gallery">
                                             <div class="slides"></div>
@@ -62,17 +67,18 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo e(route('admin.tag.edit', $tag->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="<?php echo e(route('admin.tag.destroy', $tag->id)); ?>" method="post">
+                                        <a href="<?php echo e(route('admin.tag.edit', $tag->id)); ?>" type="button" class="btn btn-success">Edit</a>
+                                        <form action="<?php echo e(route('admin.tag.destroy', $tag->id)); ?>" method="post" style=" display: inline;">
                                             <?php echo e(method_field('DELETE')); ?>
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>

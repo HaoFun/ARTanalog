@@ -14,14 +14,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">Create at</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Create at</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
@@ -37,21 +40,21 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <?php echo e($user->is_action ? 'checked' : 'unCheck'); ?>
-
+                                        <span class="label label-primary"><?php echo e($user->is_action ? 'checked' : 'unCheck'); ?></span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>" type="button" class="btn form-control btn-success">Edit</a>
-                                        <form action="<?php echo e(route('admin.user.destroy', $user->id)); ?>" method="post">
+                                        <a href="<?php echo e(route('admin.user.edit', $user->id)); ?>" type="button" class="btn btn-success">Edit</a>
+                                        <form class="form-horizontal" action="<?php echo e(route('admin.user.destroy', $user->id)); ?>" method="post" style=" display: inline;">
                                             <?php echo e(method_field('DELETE')); ?>
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn form-control btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>

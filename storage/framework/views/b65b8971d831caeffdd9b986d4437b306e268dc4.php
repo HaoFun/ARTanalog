@@ -147,13 +147,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-group <?php echo e($errors->has('icon') ? 'has-error':''); ?>">
+                            <div class="form-group row <?php echo e($errors->has('icon') ? 'has-error':''); ?>">
                                 <label for="icon" class="col-md-2">
                                     Icon
                                 </label>
                                 <div class="col-md-10">
                                     <input type="file" name="icon" data-fileuploader-files='[
-                                        <?php if(count($icon)): ?>
+                                        <?php if(isset($icon) && count($icon)): ?>
                                             {
                                                 "name":"<?php echo e(array_first($icon['name'])); ?>",
                                                 "size":"<?php echo e(array_first($icon['size'])); ?>",

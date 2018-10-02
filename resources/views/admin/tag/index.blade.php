@@ -20,15 +20,18 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Parent ID</th>
-                                <th class="text-center">Name CN</th>
-                                <th class="text-center">Content CN</th>
-                                <th class="text-center">Icon</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Parent ID</th>
+                                    <th class="text-center">Name CN</th>
+                                    <th class="text-center">Content CN</th>
+                                    <th class="text-center">Icon</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             @foreach($tags as $tag)
                                 <tr>
                                     <td class="text-center">
@@ -45,9 +48,11 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="lightBoxGallery">
-                                            <a href="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" data-gallery="">
-                                                <img src="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" style="height: 64px; max-width: 100px">
-                                            </a>
+                                            @if (file_exists(array_first(unserialize(($tag->icon)))))
+                                                <a href="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" data-gallery="">
+                                                    <img src="{{ asset(array_first(unserialize(($tag->icon)))) . '?v=' . str_random('10') }}" style="height: 64px; max-width: 100px">
+                                                </a>
+                                            @endif
                                         </div>
                                         <div id="blueimp-gallery" class="blueimp-gallery">
                                             <div class="slides"></div>
@@ -60,15 +65,16 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.tag.edit', $tag->id) }}" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="post">
+                                        <a href="{{ route('admin.tag.edit', $tag->id) }}" type="button" class="btn btn-success">Edit</a>
+                                        <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="post" style=" display: inline;">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

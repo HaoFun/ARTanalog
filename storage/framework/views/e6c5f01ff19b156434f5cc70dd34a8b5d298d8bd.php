@@ -35,7 +35,7 @@
                                     Title EN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="<?php echo e(old('title_en')); ?>" required autofocus>
+                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="<?php echo e(old('title_en')); ?>" required>
                                     <?php if($errors->has('title_en')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('title_en')); ?></strong>
@@ -49,7 +49,7 @@
                                     Title JP
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="<?php echo e(old('title_jp')); ?>" required autofocus>
+                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="<?php echo e(old('title_jp')); ?>" required>
                                     <?php if($errors->has('title_jp')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('title_jp')); ?></strong>

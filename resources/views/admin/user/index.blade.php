@@ -16,14 +16,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">Create at</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Create at</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             @foreach($users as $user)
                                 <tr>
                                     <td class="text-center">
@@ -36,18 +39,19 @@
                                         {{ $user->email }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $user->is_action ? 'checked' : 'unCheck' }}
+                                        <span class="label label-primary">{{ $user->is_action ? 'checked' : 'unCheck' }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.user.edit', $user->id) }}" type="button" class="btn form-control btn-success">Edit</a>
-                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="post">
+                                        <a href="{{ route('admin.user.edit', $user->id) }}" type="button" class="btn btn-success">Edit</a>
+                                        <form class="form-horizontal" action="{{ route('admin.user.destroy', $user->id) }}" method="post" style=" display: inline;">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button class="btn form-control btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

@@ -14,15 +14,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">Create at</th>
-                                <th class="text-center">Title CN</th>
-                                <th class="text-center">Title EN</th>
-                                <th class="text-center">Title JP</th>
-                                <th class="text-center">Publish at</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Create at</th>
+                                    <th class="text-center">Title CN</th>
+                                    <th class="text-center">Content CN</th>
+                                    <th class="text-center">Publish at</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php $__currentLoopData = $news; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
@@ -34,11 +36,7 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <?php echo e($item->title_en); ?>
-
-                                    </td>
-                                    <td class="text-center">
-                                        <?php echo e($item->title_jp); ?>
+                                        <?php echo e(str_limit(strip_tags($item->content_cn), 30, '...')); ?>
 
                                     </td>
                                     <td class="text-center">
@@ -46,17 +44,18 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo e(route('admin.news.edit', $item->id)); ?>" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="<?php echo e(route('admin.news.destroy', $item->id)); ?>" method="post">
+                                        <a href="<?php echo e(route('admin.news.edit', $item->id)); ?>" type="button" class="btn btn-success">Edit</a>
+                                        <form action="<?php echo e(route('admin.news.destroy', $item->id)); ?>" method="post" style=" display: inline;">
                                             <?php echo e(method_field('DELETE')); ?>
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>

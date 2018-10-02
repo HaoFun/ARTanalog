@@ -16,14 +16,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th class="text-center">Create at</th>
-                                <th class="text-center">Title CN</th>
-                                <th class="text-center">Content CN</th>
-                                <th class="text-center">Publish at</th>
-                                <th class="text-center">Action</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Create at</th>
+                                    <th class="text-center">Title CN</th>
+                                    <th class="text-center">Content CN</th>
+                                    <th class="text-center">Publish at</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             @foreach($news as $item)
                                 <tr>
                                     <td class="text-center">
@@ -39,15 +42,16 @@
                                         {{ $item->publish_at->toDateString() }}
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.news.edit', $item->id) }}" type="button" class="btn btn-success form-control">Edit</a>
-                                        <form action="{{ route('admin.news.destroy', $item->id) }}" method="post">
+                                        <a href="{{ route('admin.news.edit', $item->id) }}" type="button" class="btn btn-success">Edit</a>
+                                        <form action="{{ route('admin.news.destroy', $item->id) }}" method="post" style=" display: inline;">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
+                                            <button class="btn btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

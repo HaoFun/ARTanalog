@@ -20,8 +20,11 @@ Route::prefix('admin')->group(function($route) {
     $route->post('/logout', 'Auth\LoginController@logout')->name('admin.logout');
     $route->get('/forget_password', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
 
-    $route->resource('user', 'Admin\UserController', ['as' => 'admin']);
-    $route->resource('news', 'Admin\NewsController', ['as' => 'admin']);
-    $route->resource('tag', 'Admin\TagController', ['as' => 'admin']);
-    $route->resource('product', 'Admin\ProductController', ['as' => 'admin']);
+    $route->resource('user', 'Admin\UserController', ['as' => 'admin', 'except' => ['show']]);
+    $route->resource('news', 'Admin\NewsController', ['as' => 'admin', 'except' => ['show']]);
+    $route->resource('tag', 'Admin\TagController', ['as' => 'admin', 'except' => ['show']]);
+    $route->resource('product', 'Admin\ProductController', ['as' => 'admin', 'except' => ['show']]);
+
+    $route->get('/display', 'Admin\DisplayController@edit')->name('admin.display.edit');
+    $route->patch('/display', 'Admin\DisplayController@update')->name('admin.display.update');
 });

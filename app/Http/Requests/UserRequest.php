@@ -14,6 +14,7 @@ class UserRequest extends BaseRequest
                     'name' => 'required|max:50|unique:users,name',
                     'email' => 'required|email|max:255|unique:users,email',
                     'password' => 'required|min:6|confirmed',
+                    'is_action' => 'required|in:0,1'
                 ];
             case 'admin.user.update':
                 return [
@@ -21,7 +22,8 @@ class UserRequest extends BaseRequest
                         $this->route()->parameter('user')->id,
                     'email' => 'required|email|max:255|unique:users,email,' .
                         $this->route()->parameter('user')->id,
-                    'password' => 'required|min:6|confirmed',
+                    'password' => 'nullable|min:6|confirmed',
+                    'is_action' => 'required|in:0,1'
                 ];
             default:
                 return [];

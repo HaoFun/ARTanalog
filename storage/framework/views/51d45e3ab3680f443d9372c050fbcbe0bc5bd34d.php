@@ -6,7 +6,7 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h5>Update User</h5>
+                        <h3>Update User</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form" method="POST" action="<?php echo e(route('admin.user.update', $user->id)); ?>">
@@ -47,7 +47,7 @@
                                     Password
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="password" type="password" class="form-control" placeholder="Password" name="password" required>
+                                    <input id="password" type="password" class="form-control" placeholder="Password" name="password">
                                     <?php if($errors->has('password')): ?>
                                         <span class="help-block">
                                             <strong><?php echo e($errors->first('password')); ?></strong>
@@ -61,7 +61,7 @@
                                     Password Confirm
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="password-confirm" type="password" class="form-control" placeholder="Password Confirm" name="password_confirmation" required>
+                                    <input id="password-confirm" type="password" class="form-control" placeholder="Password Confirm" name="password_confirmation">
                                 </div>
                             </div>
 

@@ -73,7 +73,7 @@ class ForUploader
 
     public function getOldFile($upload_data, $data)
     {
-        unserialize($data) === '' ? $old_file = array($data): $old_file = unserialize($data);
+        $old_file = unserialize($data) ? unserialize($data) : array($data);
         $old_file_data = $this->Unlink_File_list($old_file, $upload_data);
         $old_file_string = $this->getFile($old_file_data);
         return $old_file_string;

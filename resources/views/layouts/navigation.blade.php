@@ -12,8 +12,12 @@
                 </div>
             </li>
 
+            <li class="{{ isActiveRoute('admin.display') }}">
+                <a href="{{ route('admin.display.edit') }}"><i class="fa fa-building fa-lg"></i> <span class="nav-label">Display</span></a>
+            </li>
+
             <li class="{{ isActiveRoute('admin.user') }}">
-                <a href="{{ route('admin.user.index') }}"><i class="fa fa-address-book fa-lg"></i> <span class="nav-label">User</span></a>
+                <a href="{{ route('admin.user.index') }}"><i class="fa fa-user-o fa-lg"></i> <span class="nav-label">User</span></a>
             </li>
 
             <li class="{{ isActiveRoute('admin.news') }}">

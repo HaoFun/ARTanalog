@@ -23,7 +23,7 @@ class CreateTagsTable extends Migration
             $table->text('content_en')->nullable()->comment('標記內容EN');
             $table->text('content_jp')->nullable()->comment('標記內容JP');
             $table->unsignedSmallInteger('parent_id')->nullable()->comment('標記上層ID');
-            $table->string('icon', 100)->comment('標記ICON');
+            $table->string('icon', 255)->comment('標記ICON');
             $table->timestamps();
         });
     }

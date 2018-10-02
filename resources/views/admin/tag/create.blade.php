@@ -144,7 +144,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group {{ $errors->has('icon') ? 'has-error':'' }}">
+                            <div class="form-group row {{ $errors->has('icon') ? 'has-error':'' }}">
                                 <label for="icon" class="col-md-2">
                                     Icon
                                 </label>
