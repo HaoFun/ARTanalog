@@ -13,6 +13,6 @@ class ProductRepository extends BaseAbstract
 
     public function getProductByTag($id)
     {
-        return $this->model->where('tag_id', $id)->get();
+        return $this->model->where('tag_id', $id)->first();
     }
 }

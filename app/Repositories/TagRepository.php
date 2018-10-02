@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Tag;
 use App\Repositories\Abstracts\BaseAbstract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -24,13 +25,26 @@ class TagRepository extends BaseAbstract
         return parent::create($data);
     }
 
-    public function tagList($columns = ['*'])
+    public function tagList($columns = ['*'], $where = null)
     {
-        if ($parent = $this->model->whereNull('parent_id')->get($columns)) {
+        $parent = $this->model->whereNull('parent_id');
+        $parent->where('type', $where ? $where : array_first(Tag::displayType()));
+        if ($parent = $parent->get($columns)) {
             $this->getList($parent, $columns);
         }
         ksort($this->child);
         return $this->child;
+    }
+
+    public function childList($type = null)
+    {
+        $parents = $this->model->whereNotNull('parent_id');
+        $parents = $type ?
+            $parents->where('type', $type)->pluck('parent_id') :
+            $parents->pluck('parent_id');
+        return $type ?
+            $this->model->where('type', $type)->whereNotIn('id', $parents)->get() :
+            $this->model->whereNotIn('id', $parents)->get();
     }
 
     public function parentList($id, $columns = ['*'])

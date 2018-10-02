@@ -19,23 +19,31 @@
 
                             <?php echo e(method_field('PATCH')); ?>
 
+                            <div class="form-group row" <?php echo e($errors->has('type') ? ' has-error' : ''); ?>>
+                                <label for="type" class="col-md-2">
+                                    Type
+                                </label>
+                                <div class="col-md-10">
+                                    <select class="form-control m-b tag_type" name="type">
+                                        <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($type); ?>" <?php if($type === $tag->type): ?> selected="selected" <?php endif; ?>><?php echo e($type); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php if($errors->has('type')): ?>
+                                        <span class="help-block">
+                                            <strong><?php echo e($errors->first('type')); ?></strong>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
                             <div class="form-group row" <?php echo e($errors->has('parent_id') ? ' has-error' : ''); ?>>
                                 <label for="parent_id" class="col-md-2">
                                     Parent ID
                                 </label>
                                 <div class="col-md-10">
-                                    <select class="form-control m-b" name="parent_id">
-                                        <option value="">Empty</option>
-                                        <?php if(count($tags)): ?>
-                                            <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php $__currentLoopData = $item; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php if($value->id === $tag->id): ?>
-                                                        <?php continue; ?>
-                                                    <?php endif; ?>
-                                                    <option value="<?php echo e($value->id); ?>"><?php echo e($value->name_cn . '  [' . ($loop->parent->index + 1) . ']'); ?></option>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <?php endif; ?>
+                                    <select class="form-control m-b tag_parent" name="parent_id">
+
                                     </select>
                                     <?php if($errors->has('parent_id')): ?>
                                         <span class="help-block">
@@ -87,7 +95,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row <?php echo e($errors->has('content_cn') ? ' has-error' : ''); ?>">
+                            <div class="form-group row">
+                                <label for="exists_content" class="col-md-2">
+                                    Exists Content ?
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="radio" class="exists_content" name="exists_content" value="Y">Yes
+                                    <input type="radio" class="exists_content" name="exists_content" value="N" style="margin-left: 20px" checked="checked">No
+                                </div>
+                            </div>
+
+                            <div class="content-group form-group row <?php echo e($errors->has('content_cn') ? ' has-error' : ''); ?>" style="display: none;">
                                 <label for="content_cn" class="col-md-2">
                                     Content CN
                                 </label>
@@ -101,7 +119,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row <?php echo e($errors->has('content_en') ? ' has-error' : ''); ?>">
+                            <div class="content-group form-group row <?php echo e($errors->has('content_en') ? ' has-error' : ''); ?>" style="display: none;">
                                 <label for="content_en" class="col-md-2">
                                     Content EN
                                 </label>
@@ -115,7 +133,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row <?php echo e($errors->has('content_jp') ? ' has-error' : ''); ?>">
+                            <div class="content-group form-group row <?php echo e($errors->has('content_jp') ? ' has-error' : ''); ?>" style="display: none;">
                                 <label for="content_jp" class="col-md-2">
                                     Content JP
                                 </label>
@@ -167,7 +185,44 @@
 <?php $__env->startSection('scripts'); ?>
     <script src="<?php echo e(asset('js/jquery.fileuploader.js')); ?>"></script>
     <script>
+        function getTagList(value) {
+            $.ajax({
+                url : "/api/getTag/" + value,
+                type : 'get',
+                datatype : 'json',
+                timeout:3000
+            }).done(function (data) {
+                $('.tag_parent').html('');
+                $('.tag_parent').append('<option value="">Empty</option>');
+                $.each(data, function (index, value) {
+                    $.each(value, function (itemIndex, itemValue) {
+                        if (itemValue.id === parseInt("<?php echo e($tag->id); ?>")) {
+                            return;
+                        }
+                        $('.tag_parent').append('<option value=' + itemValue.id +'>' + itemValue.name_cn + ' [' + index + ']' + '</option>');
+                    });
+                });
+                $('.tag_parent option[value="<?php echo e($tag->parent_id); ?>"]').attr('selected', 'selected');
+            }).fail(function () {
+
+            });
+        }
+
         $(document).ready(function() {
+            getTagList($('.tag_type').val());
+
+            $(document).on('change', '.tag_type', function () {
+                getTagList($(this).val());
+            });
+
+            $(document).on('change','.exists_content',function () {
+                if ($(this).val() === 'Y') {
+                    $('.content-group').show();
+                } else {
+                    $('.content-group').hide();
+                }
+            });
+
             $('input[name="icon"]').fileuploader({
                 limit:1,
                 extensions: ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'],

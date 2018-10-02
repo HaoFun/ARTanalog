@@ -47,7 +47,7 @@
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn form-control btn-danger" type="submit">Delete</button>
+                                            <button class="btn form-control btn-danger" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

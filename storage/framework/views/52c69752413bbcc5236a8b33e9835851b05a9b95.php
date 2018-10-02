@@ -21,6 +21,22 @@
     </div>
     <script src="<?php echo asset('js/app.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo asset('js/sweetalert.min.js'); ?>" type="text/javascript"></script>
+    <script>
+        function ConfirmDelete(node) {
+            swal({
+                    title: "確認要刪除嗎?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#1ab394",
+                    confirmButtonText: "刪除",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: true
+                },
+                function() {
+                    node.parentNode.submit();
+                });
+        }
+    </script>
     <?php $__env->startSection('scripts'); ?>
     <?php echo $__env->yieldSection(); ?>
 </body>

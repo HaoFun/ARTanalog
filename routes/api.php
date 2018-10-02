@@ -11,3 +11,6 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/getTag/{type}', 'Admin\TagController@tagList')->name('admin.tag.list');
+Route::get('/getChild/{type}', 'Admin\TagController@childList')->name('admin.tag.child_list');

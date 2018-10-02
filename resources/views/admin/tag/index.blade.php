@@ -22,7 +22,9 @@
                     <div class="panel-body">
                         <table class="table table-bordered">
                             <tr>
-                                <th class="text-center">Parent Name CN</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Parent ID</th>
+                                <th class="text-center">Name CN</th>
                                 <th class="text-center">Content CN</th>
                                 <th class="text-center">Icon</th>
                                 <th class="text-center">Action</th>
@@ -30,10 +32,16 @@
                             @foreach($tags as $tag)
                                 <tr>
                                     <td class="text-center">
-                                        {{ isset($tag->parent_id) ? $tag->tag->name_cn : null }}
+                                        {{ $tag->id }}
                                     </td>
                                     <td class="text-center">
-                                        {{ str_limit($tag->content_cn, 20, '...') }}
+                                        {{ $tag->parent_id }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $tag->name_cn }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ str_limit(strip_tags($tag->content_cn), 30, '...') }}
                                     </td>
                                     <td class="text-center">
                                         <div class="lightBoxGallery">
@@ -56,7 +64,7 @@
                                         <form action="{{ route('admin.tag.destroy', $tag->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

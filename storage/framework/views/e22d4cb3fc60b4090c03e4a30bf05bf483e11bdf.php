@@ -20,7 +20,9 @@
                     <div class="panel-body">
                         <table class="table table-bordered">
                             <tr>
-                                <th class="text-center">Parent Name CN</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Parent ID</th>
+                                <th class="text-center">Name CN</th>
                                 <th class="text-center">Content CN</th>
                                 <th class="text-center">Icon</th>
                                 <th class="text-center">Action</th>
@@ -28,11 +30,19 @@
                             <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="text-center">
-                                        <?php echo e(isset($tag->parent_id) ? $tag->tag->name_cn : null); ?>
+                                        <?php echo e($tag->id); ?>
 
                                     </td>
                                     <td class="text-center">
-                                        <?php echo e(str_limit($tag->content_cn, 20, '...')); ?>
+                                        <?php echo e($tag->parent_id); ?>
+
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo e($tag->name_cn); ?>
+
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo e(str_limit(strip_tags($tag->content_cn), 30, '...')); ?>
 
                                     </td>
                                     <td class="text-center">
@@ -58,7 +68,7 @@
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

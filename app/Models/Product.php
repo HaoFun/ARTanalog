@@ -13,6 +13,6 @@ class Product extends Model
 
     public function tag()
     {
-        return $this->hasOne(Tag::class, 'tag_id', 'id');
+        return $this->belongsTo(Tag::class, 'tag_id', 'id');
     }
 }

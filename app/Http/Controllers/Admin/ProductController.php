@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Repositories\ProductRepository;
-use App\Repositories\TagRepository;
 
 class ProductController extends Controller
 {
-    protected $tag;
     protected $product;
     protected $fillField = [
         'title_cn',
@@ -22,9 +21,8 @@ class ProductController extends Controller
         'tag_id',
     ];
 
-    public function __construct(TagRepository $tag, ProductRepository $product)
+    public function __construct(ProductRepository $product)
     {
-        $this->tag = $tag;
         $this->product = $product;
         $this->middleware('auth');
     }
@@ -37,8 +35,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $tags = $this->tag->tagList();
-        return view('admin.product.create', compact('tags'));
+        $types =  $types = Tag::displayType();
+        return view('admin.product.create', compact('types'));
     }
 
     public function store(ProductRequest $request)
@@ -49,8 +47,8 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $tags = $this->tag->tagList();
-        return view('admin.product.edit', compact('product', 'tags'));
+        $types =  $types = Tag::displayType();
+        return view('admin.product.edit', compact('product', 'types'));
     }
 
     public function update(ProductRequest $request, Product $product)

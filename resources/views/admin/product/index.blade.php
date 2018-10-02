@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'News main page')
+@section('title', 'Product main page')
 
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -43,7 +43,7 @@
                                         <form action="{{ route('admin.product.destroy', $product->id) }}" method="post">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

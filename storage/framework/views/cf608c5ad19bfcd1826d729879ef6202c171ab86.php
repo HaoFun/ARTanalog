@@ -12,19 +12,31 @@
                         <form role="form" method="POST" action="<?php echo e(route('admin.product.store')); ?>">
                             <?php echo e(csrf_field()); ?>
 
+                            <div class="form-group row">
+                                <label for="type" class="col-md-2">
+                                    Type
+                                </label>
+                                <div class="col-md-10">
+                                    <select class="form-control m-b tag_type">
+                                        <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($type); ?>"><?php echo e($type); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php if($errors->has('type')): ?>
+                                        <span class="help-block">
+                                            <strong><?php echo e($errors->first('type')); ?></strong>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
                             <div class="form-group row" <?php echo e($errors->has('tag_id') ? ' has-error' : ''); ?>>
                                 <label for="parent_id" class="col-md-2">
                                     Tag ID
                                 </label>
                                 <div class="col-md-10">
-                                    <select class="form-control m-b" name="tag_id">
-                                        <?php if(count($tags)): ?>
-                                            <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php $__currentLoopData = $item; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <option value="<?php echo e($value->id); ?>"><?php echo e($value->name_cn . '  [' . ($loop->parent->index + 1) . ']'); ?></option>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        <?php endif; ?>
+                                    <select class="form-control m-b tag_list" name="tag_id">
+
                                     </select>
                                     <?php if($errors->has('tag_id')): ?>
                                         <span class="help-block">
@@ -136,7 +148,29 @@
     <script src="<?php echo e(asset('js/moment.min.js')); ?>"></script>
     <script src="<?php echo e(asset('js/bootstrap-datepicker.js')); ?>"></script>
     <script>
+        function getTagChildList(value) {
+            $.ajax({
+                url : "/api/getChild/" + value,
+                type : 'get',
+                datatype : 'json',
+                timeout:3000
+            }).done(function (data) {
+                $('.tag_list').html('');
+                $.each(data, function (index, value) {
+                    $('.tag_list').append('<option value=' + value.id + '>' + value.name_cn + '</option>');
+                });
+            }).fail(function () {
+
+            });
+        }
+
         $(document).ready(function () {
+            getTagChildList($('.tag_type').val());
+
+            $(document).on('change', '.tag_type', function () {
+                getTagChildList($(this).val());
+            });
+
             UE.getEditor('content_cn',
                 {
                     initialFrameHeight:150,

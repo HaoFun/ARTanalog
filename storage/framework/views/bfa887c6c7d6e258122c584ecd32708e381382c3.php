@@ -1,35 +1,38 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3>Create Product</h3>
+                        <h3>Update Product</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" method="POST" action="{{ route('admin.product.store') }}">
-                            {{ csrf_field() }}
+                        <form role="form" method="POST" action="<?php echo e(route('admin.product.update', $product->id)); ?>">
+                            <?php echo e(method_field('PATCH')); ?>
+
+                            <?php echo e(csrf_field()); ?>
+
                             <div class="form-group row">
                                 <label for="type" class="col-md-2">
                                     Type
                                 </label>
                                 <div class="col-md-10">
                                     <select class="form-control m-b tag_type">
-                                        @foreach($types as $type)
-                                            <option value="{{ $type }}">{{ $type }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($type); ?>" <?php if($type === $product->tag->type): ?> selected="selected" <?php endif; ?>><?php echo e($type); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
-                                    @if ($errors->has('type'))
+                                    <?php if($errors->has('type')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('type') }}</strong>
+                                            <strong><?php echo e($errors->first('type')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row" {{ $errors->has('tag_id') ? ' has-error' : '' }}>
+                            <div class="form-group row" <?php echo e($errors->has('tag_id') ? ' has-error' : ''); ?>>
                                 <label for="parent_id" class="col-md-2">
                                     Tag ID
                                 </label>
@@ -37,101 +40,101 @@
                                     <select class="form-control m-b tag_list" name="tag_id">
 
                                     </select>
-                                    @if ($errors->has('tag_id'))
+                                    <?php if($errors->has('tag_id')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('tag_id') }}</strong>
+                                            <strong><?php echo e($errors->first('tag_id')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('title_cn') ? ' has-error' : '' }}">
+                            <div class="form-group row <?php echo e($errors->has('title_cn') ? ' has-error' : ''); ?>">
                                 <label for="title_cn" class="col-md-2">
                                     Title CN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_cn" type="text" class="form-control" name="title_cn" placeholder="Title CN" value="{{ old('title_cn') }}" required autofocus>
-                                    @if ($errors->has('title_cn'))
+                                    <input id="title_cn" type="text" class="form-control" name="title_cn" placeholder="Title CN" value="<?php echo e($product->title_cn); ?>" required autofocus>
+                                    <?php if($errors->has('title_cn')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_cn') }}</strong>
+                                            <strong><?php echo e($errors->first('title_cn')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('title_en') ? ' has-error' : '' }}">
+                            <div class="form-group row <?php echo e($errors->has('title_en') ? ' has-error' : ''); ?>">
                                 <label for="title_en" class="col-md-2">
                                     Title EN
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="{{ old('title_en') }}" required>
-                                    @if ($errors->has('title_en'))
+                                    <input id="title_en" type="text" class="form-control" name="title_en" placeholder="Title EN" value="<?php echo e($product->title_en); ?>" required autofocus>
+                                    <?php if($errors->has('title_en')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_en') }}</strong>
+                                            <strong><?php echo e($errors->first('title_en')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('title_jp') ? ' has-error' : '' }}">
-                                <label for="title_jp" class="col-md-2">
+                            <div class="form-group row <?php echo e($errors->has('title_jp') ? ' has-error' : ''); ?>">
+                                <label for="title" class="col-md-2">
                                     Title JP
                                 </label>
                                 <div class="col-md-10">
-                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="{{ old('title_jp') }}" required>
-                                    @if ($errors->has('title_jp'))
+                                    <input id="title_jp" type="text" class="form-control" name="title_jp" placeholder="Title JP" value="<?php echo e($product->title_jp); ?>" required autofocus>
+                                    <?php if($errors->has('title_jp')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('title_jp') }}</strong>
+                                            <strong><?php echo e($errors->first('title_jp')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_cn') ? ' has-error' : '' }}">
+                            <div class="form-group row <?php echo e($errors->has('content_cn') ? ' has-error' : ''); ?>">
                                 <label for="content_cn" class="col-md-2">
                                     Content CN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_cn" name="content_cn">{!! old('content_cn') !!}</textarea>
-                                    @if ($errors->has('content_cn'))
+                                    <textarea id="content_cn" name="content_cn"><?php echo $product->content_cn; ?></textarea>
+                                    <?php if($errors->has('content_cn')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('content_cn') }}</strong>
+                                            <strong><?php echo e($errors->first('content_cn')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_en') ? ' has-error' : '' }}">
+                            <div class="form-group row <?php echo e($errors->has('content_en') ? ' has-error' : ''); ?>">
                                 <label for="content_en" class="col-md-2">
                                     Content EN
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_en" name="content_en">{!! old('content_en') !!}</textarea>
-                                    @if ($errors->has('content_en'))
+                                    <textarea id="content_en" name="content_en"><?php echo $product->content_en; ?></textarea>
+                                    <?php if($errors->has('content_en')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('content_en') }}</strong>
+                                            <strong><?php echo e($errors->first('content_en')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_jp') ? ' has-error' : '' }}">
+                            <div class="form-group row <?php echo e($errors->has('content_jp') ? ' has-error' : ''); ?>">
                                 <label for="content_jp" class="col-md-2">
                                     Content JP
                                 </label>
                                 <div class="col-md-10">
-                                    <textarea id="content_jp" name="content_jp">{!! old('content_jp') !!}</textarea>
-                                    @if ($errors->has('content_jp'))
+                                    <textarea id="content_jp" name="content_jp"><?php echo $product->content_jp; ?></textarea>
+                                    <?php if($errors->has('content_jp')): ?>
                                         <span class="help-block">
-                                            <strong>{{ $errors->first('content_jp') }}</strong>
+                                            <strong><?php echo e($errors->first('content_jp')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Create
+                                    Update
                                 </button>
                             </div>
                         </form>
@@ -140,12 +143,12 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@include('vendor.ueditor.assets')
-@section('scripts')
-    <script src="{{ asset('js/moment.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+<?php echo $__env->make('vendor.ueditor.assets', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->startSection('scripts'); ?>
+    <script src="<?php echo e(asset('js/moment.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/bootstrap-datepicker.js')); ?>"></script>
     <script>
         function getTagChildList(value) {
             $.ajax({
@@ -158,6 +161,7 @@
                 $.each(data, function (index, value) {
                     $('.tag_list').append('<option value=' + value.id + '>' + value.name_cn + '</option>');
                 });
+                $('.tag_list option[value="<?php echo e($product->tag_id); ?>"]').attr('selected', 'selected');
             }).fail(function () {
 
             });
@@ -237,4 +241,5 @@
                 });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

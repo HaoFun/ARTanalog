@@ -15,6 +15,7 @@ class TagController extends Controller
     protected $forUploader;
     protected $uploader;
     protected $fillField = [
+        'type',
         'parent_id',
         'name_cn',
         'name_en',
@@ -30,7 +31,17 @@ class TagController extends Controller
         $this->tag = $tag;
         $this->uploader = $uploader;
         $this->forUploader = $forUploader;
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['tagList', 'childList']]);
+    }
+
+    public function tagList($type)
+    {
+        return response()->json($this->tag->tagList(['id', 'name_cn', 'name_en', 'name_jp'], $type));
+    }
+
+    public function childList($type)
+    {
+        return response()->json($this->tag->childList($type));
     }
 
     public function index()
@@ -41,8 +52,8 @@ class TagController extends Controller
 
     public function create()
     {
-        $tags = $this->tag->tagList(['id', 'name_cn', 'name_en', 'name_jp']);
-        return view('admin.tag.create', compact('tags'));
+        $types = Tag::displayType();
+        return view('admin.tag.create', compact('types'));
     }
 
     public function store(TagRequest $request)
@@ -71,9 +82,9 @@ class TagController extends Controller
 
     public function edit(Tag $tag)
     {
+        $types = Tag::displayType();
         $icon = $this->forUploader->getFileType($tag->icon);
-        $tags = $this->tag->tagList(['id', 'name_cn', 'name_en', 'name_jp']);
-        return view('admin.tag.edit', compact('tag', 'icon', 'tags'));
+        return view('admin.tag.edit', compact('tag', 'icon', 'types'));
     }
 
     public function update(TagRequest $request, Tag $tag)
@@ -105,7 +116,7 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         if ($fail = $this->tag->existsChildAndProduct($tag->id)) {
-            flash($fail . 'used !')->error()->important();
+            flash($fail . '正在使用中，無法刪除!')->error()->important();
             return redirect()->route('admin.tag.index');
         }
         $this->forUploader->deleteFile($tag->icon);

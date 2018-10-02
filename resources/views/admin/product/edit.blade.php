@@ -12,19 +12,31 @@
                         <form role="form" method="POST" action="{{ route('admin.product.update', $product->id) }}">
                             {{ method_field('PATCH') }}
                             {{ csrf_field() }}
+                            <div class="form-group row">
+                                <label for="type" class="col-md-2">
+                                    Type
+                                </label>
+                                <div class="col-md-10">
+                                    <select class="form-control m-b tag_type">
+                                        @foreach($types as $type)
+                                            <option value="{{ $type }}" @if ($type === $product->tag->type) selected="selected" @endif>{{ $type }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('type'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('type') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group row" {{ $errors->has('tag_id') ? ' has-error' : '' }}>
                                 <label for="parent_id" class="col-md-2">
                                     Tag ID
                                 </label>
                                 <div class="col-md-10">
-                                    <select class="form-control m-b" name="tag_id">
-                                        @if (count($tags))
-                                            @foreach($tags as $item)
-                                                @foreach($item as $value)
-                                                    <option value="{{ $value->id }}" @if ($value->id === $product->tag_id) selected="selected" @endif>{{ $value->name_cn . '  [' . ($loop->parent->index + 1) . ']' }}</option>
-                                                @endforeach
-                                            @endforeach
-                                        @endif
+                                    <select class="form-control m-b tag_list" name="tag_id">
+
                                     </select>
                                     @if ($errors->has('tag_id'))
                                         <span class="help-block">
@@ -136,7 +148,30 @@
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
     <script>
+        function getTagChildList(value) {
+            $.ajax({
+                url : "/api/getChild/" + value,
+                type : 'get',
+                datatype : 'json',
+                timeout:3000
+            }).done(function (data) {
+                $('.tag_list').html('');
+                $.each(data, function (index, value) {
+                    $('.tag_list').append('<option value=' + value.id + '>' + value.name_cn + '</option>');
+                });
+                $('.tag_list option[value="{{$product->tag_id}}"]').attr('selected', 'selected');
+            }).fail(function () {
+
+            });
+        }
+
         $(document).ready(function () {
+            getTagChildList($('.tag_type').val());
+
+            $(document).on('change', '.tag_type', function () {
+                getTagChildList($(this).val());
+            });
+
             UE.getEditor('content_cn',
                 {
                     initialFrameHeight:150,

@@ -16,20 +16,31 @@
                     <div class="panel-body">
                         <form role="form" method="POST" action="{{ route('admin.tag.store') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <div class="form-group row" {{ $errors->has('type') ? ' has-error' : '' }}>
+                                <label for="type" class="col-md-2">
+                                    Type
+                                </label>
+                                <div class="col-md-10">
+                                    <select class="form-control m-b tag_type" name="type">
+                                        @foreach($types as $type)
+                                            <option value="{{ $type }}">{{ $type }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('type'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('type') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group row" {{ $errors->has('parent_id') ? ' has-error' : '' }}>
                                 <label for="parent_id" class="col-md-2">
                                     Parent ID
                                 </label>
                                 <div class="col-md-10">
-                                    <select class="form-control m-b" name="parent_id">
-                                        <option value="">Empty</option>
-                                        @if (count($tags))
-                                            @foreach($tags as $item)
-                                                @foreach($item as $value)
-                                                    <option value="{{ $value->id }}">{{ $value->name_cn . '  [' . ($loop->parent->index + 1) . ']' }}</option>
-                                                @endforeach
-                                            @endforeach
-                                        @endif
+                                    <select class="form-control m-b tag_parent" name="parent_id">
+
                                     </select>
                                     @if ($errors->has('parent_id'))
                                         <span class="help-block">
@@ -81,7 +92,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_cn') ? ' has-error' : '' }}">
+                            <div class="form-group row">
+                                <label for="exists_content" class="col-md-2">
+                                    Exists Content ?
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="radio" class="exists_content" name="exists_content" value="Y">Yes
+                                    <input type="radio" class="exists_content" name="exists_content" value="N" style="margin-left: 20px" checked="checked">No
+                                </div>
+                            </div>
+
+                            <div class="content-group form-group row {{ $errors->has('content_cn') ? ' has-error' : '' }}" style="display: none;">
                                 <label for="content_cn" class="col-md-2">
                                     Content CN
                                 </label>
@@ -95,7 +116,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_en') ? ' has-error' : '' }}">
+                            <div class="content-group form-group row {{ $errors->has('content_en') ? ' has-error' : '' }}" style="display: none;">
                                 <label for="content_en" class="col-md-2">
                                     Content EN
                                 </label>
@@ -109,7 +130,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row {{ $errors->has('content_jp') ? ' has-error' : '' }}">
+                            <div class="content-group form-group row {{ $errors->has('content_jp') ? ' has-error' : '' }}" style="display: none;">
                                 <label for="content_jp" class="col-md-2">
                                     Content JP
                                 </label>
@@ -153,7 +174,40 @@
 @section('scripts')
     <script src="{{ asset('js/jquery.fileuploader.js') }}"></script>
     <script>
+        function getTagList(value) {
+            $.ajax({
+                url : "/api/getTag/" + value,
+                type : 'get',
+                datatype : 'json',
+                timeout:3000
+            }).done(function (data) {
+                $('.tag_parent').html('');
+                $('.tag_parent').append('<option value="">Empty</option>');
+                $.each(data, function (index, value) {
+                    $.each(value, function (itemIndex, itemValue) {
+                        $('.tag_parent').append('<option value=' + itemValue.id + '>' + itemValue.name_cn + ' [' + index + ']' + '</option>');
+                    });
+                });
+            }).fail(function () {
+
+            });
+        }
+
         $(document).ready(function() {
+            getTagList($('.tag_type').val());
+
+            $(document).on('change', '.tag_type', function () {
+                getTagList($(this).val());
+            });
+
+            $(document).on('change', '.exists_content', function () {
+                if ($(this).val() === 'Y') {
+                    $('.content-group').show();
+                } else {
+                    $('.content-group').hide();
+                }
+            });
+
             $('input[name="icon"]').fileuploader({
                 limit:1,
                 extensions: ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'],

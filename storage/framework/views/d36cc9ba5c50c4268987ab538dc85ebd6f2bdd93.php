@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'News main page'); ?>
+<?php $__env->startSection('title', 'Product main page'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -47,7 +47,7 @@
 
                                             <?php echo e(csrf_field()); ?>
 
-                                            <button class="btn btn-danger form-control" type="submit">Delete</button>
+                                            <button class="btn btn-danger form-control" type="button" onclick="ConfirmDelete(this)">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
