@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Create tag page')
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader-theme-thumbnails.css') }}">

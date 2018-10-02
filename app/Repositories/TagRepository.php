@@ -61,7 +61,11 @@ class TagRepository extends BaseAbstract
             if ($child = $this->model->where('parent_id', $item->id)->get($columns)) {
                 $this->getList($child, $columns, ++$index);
             }
-            $this->child[$index][] = $item;
+            $this->child[$index][] = array_merge($item->toArray(), [
+                'grand_parent_id' => $item->parent_id ?
+                    $this->getGrandParent($item->parent_id) :
+                    $item->parent_id
+            ]);
         });
     }
 
@@ -77,6 +81,15 @@ class TagRepository extends BaseAbstract
             $message .= ('Product : ' . implode(', ', $product->pluck('title_cn')->toArray()));
         }
         return $message;
+    }
+
+    public function getGrandParent($id)
+    {
+        $parent = $this->model->find($id);
+        if ($parent && $parent->parent_id) {
+            return $this->getGrandParent($parent->parent_id);
+        }
+        return $parent->id;
     }
 
     public function getParent(Model $model, $columns = ['*'], $index = 0)

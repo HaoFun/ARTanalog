@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Update display page')
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader.css') }}">
     <link rel="stylesheet" href="{{ asset('css/jquery.fileuploader-theme-thumbnails.css') }}">

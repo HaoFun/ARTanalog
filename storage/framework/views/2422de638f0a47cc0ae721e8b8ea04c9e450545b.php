@@ -1,5 +1,7 @@
 
 
+<?php $__env->startSection('title', 'Create tag page'); ?>
+
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader-theme-thumbnails.css')); ?>">
@@ -145,7 +147,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group <?php echo e($errors->has('icon') ? 'has-error':''); ?>">
+                            <div class="form-group row <?php echo e($errors->has('icon') ? 'has-error':''); ?>">
                                 <label for="icon" class="col-md-2">
                                     Icon
                                 </label>
@@ -183,7 +185,7 @@
                 timeout:3000
             }).done(function (data) {
                 $('.tag_parent').html('');
-                $('.tag_parent').append('<option>Empty</option>');
+                $('.tag_parent').append('<option value="">Empty</option>');
                 $.each(data, function (index, value) {
                     $.each(value, function (itemIndex, itemValue) {
                         $('.tag_parent').append('<option value=' + itemValue.id + '>' + itemValue.name_cn + ' [' + index + ']' + '</option>');

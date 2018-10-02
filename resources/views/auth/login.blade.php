@@ -13,35 +13,47 @@
                     <div class="panel-body">
                         <form class="m-t" role="form" method="POST" action="{{ route('admin.login.action') }}">
                             {{ csrf_field() }}
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input type="text" name="email" class="form-control" value="{{ old('email') }}" placeholder="Name or Email" required autofocus>
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                                @endif
+                            <div class="form-group row {{ $errors->has('email') ? ' has-error' : '' }}">
+                                <label for="email" class="col-md-2">
+                                    Name Or Email
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="text" name="email" class="form-control" value="{{ old('email') }}" placeholder="Name or Email" required autofocus>
+                                    @if ($errors->has('email'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="password" name="password" class="form-control" placeholder="Password" required>
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                                @endif
+
+                            <div class="form-group row {{ $errors->has('password') ? ' has-error' : '' }}">
+                                <label for="password" class="col-md-2">
+                                    Password
+                                </label>
+                                <div class="col-md-10">
+                                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                    @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
+
                             <div class="form-group col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>
-                            <a href="{{ route('admin.password.request') }}">
-                                <h3>Forgot password?</h3>
-                            </a>
+                            {{--<a href="{{ route('admin.password.request') }}">--}}
+                                {{--<h3>Forgot password?</h3>--}}
+                            {{--</a>--}}
 
-                            <div class="form-group col-md-6 col-md-offset-3">
-                                <p class="text-muted text-center">
-                                    <small>Do not have an account?</small>
-                                </p>
-                                <a class="btn btn-sm btn-danger btn-block" href="{{ route('admin.register') }}">Create an account</a>
-                            </div>
+                            {{--<div class="form-group col-md-6 col-md-offset-3">--}}
+                                {{--<p class="text-muted text-center">--}}
+                                    {{--<small>Do not have an account?</small>--}}
+                                {{--</p>--}}
+                                {{--<a class="btn btn-sm btn-danger btn-block" href="{{ route('admin.register') }}">Create an account</a>--}}
+                            {{--</div>--}}
                         </form>
                     </div>
                 </div>

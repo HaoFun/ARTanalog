@@ -1,5 +1,7 @@
 
 
+<?php $__env->startSection('title', 'Update display page'); ?>
+
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader-theme-thumbnails.css')); ?>">

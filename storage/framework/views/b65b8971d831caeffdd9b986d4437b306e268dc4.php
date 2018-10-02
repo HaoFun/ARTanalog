@@ -1,5 +1,7 @@
 
 
+<?php $__env->startSection('title', 'Update tag page'); ?>
+
 <?php $__env->startSection('css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/jquery.fileuploader-theme-thumbnails.css')); ?>">
@@ -198,8 +200,11 @@
                     $.each(value, function (itemIndex, itemValue) {
                         if (itemValue.id === parseInt("<?php echo e($tag->id); ?>")) {
                             return;
+                        } else if(itemValue.parent_id === parseInt("<?php echo e($tag->id); ?>") || itemValue.grand_parent_id === parseInt("<?php echo e($tag->id); ?>")) {
+                            $('.tag_parent').append('<option disabled value=' + itemValue.id +'>' + itemValue.name_cn + ' [' + index + ']' + ' 無法選擇自身的子節點' + '</option>');
+                        } else {
+                            $('.tag_parent').append('<option value=' + itemValue.id +'>' + itemValue.name_cn + ' [' + index + ']' + '</option>');
                         }
-                        $('.tag_parent').append('<option value=' + itemValue.id +'>' + itemValue.name_cn + ' [' + index + ']' + '</option>');
                     });
                 });
                 $('.tag_parent option[value="<?php echo e($tag->parent_id); ?>"]').attr('selected', 'selected');

@@ -36,7 +36,7 @@ class TagController extends Controller
 
     public function tagList($type)
     {
-        return response()->json($this->tag->tagList(['id', 'name_cn', 'name_en', 'name_jp'], $type));
+        return response()->json($this->tag->tagList(['id', 'name_cn', 'parent_id'], $type));
     }
 
     public function childList($type)

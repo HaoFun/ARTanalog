@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Update user page')
+
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">

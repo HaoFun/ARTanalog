@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Create product page')
+
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">

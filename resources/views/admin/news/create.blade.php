@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Create news page')
+
 @section('css')
     <link href="{{ asset('css/datepicker3.css') }}" rel="stylesheet">
 @endsection
